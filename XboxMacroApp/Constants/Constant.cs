@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XboxMacroApp.Services.Classes;
 
-namespace XboxMacroApp.Services.Interfaces
+namespace XboxMacroApp.Constants
 {
-    public class JsonSerivce : IJsonSerivce
+    public class Constant
     {
+        public const string FILENAME = "Programs.json";
     }
 }

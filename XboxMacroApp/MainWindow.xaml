@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:XboxMacroApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Loaded="Grid_Loaded">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -19,9 +19,16 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <!--tab menu-->
+        <TextBlock x:Name="txtPrograms" Text="Programs" Grid.Column="0" Grid.Row="1" Margin="10,8,10,12" MouseLeftButtonDown="txtPrograms_MouseLeftButtonDown" Cursor="Hand"/>
+        <TextBlock x:Name="txtAssingButtons" Text="Assign Buttons" Grid.Column="0" Grid.Row="2" Margin="10" MouseLeftButtonDown="txtAssingButtons_MouseLeftButtonDown" Cursor="Hand"/>
         <!-- Inner Grid without StackPanel -->
-        <Grid x:Name="InnerGrid" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" Grid.RowSpan="4" Margin="10">
+        <Grid x:Name="InnerGridPrograms" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" Grid.RowSpan="8" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -35,19 +42,31 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
             <!-- Buttons and ListView inside the Inner Grid -->
-            <Button x:Name="btnAddProgram" Content="Add Program" Grid.Column="4" Grid.Row="0"  HorizontalAlignment="Right"  Margin="0,0,0,10" Click="btnAddProgram_Click"/>
-            <ListView x:Name="LvPrograms" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3" SelectionChanged="LvPrograms_SelectionChanged">
+            <Button x:Name="btnAssigner" Content="Assign Button" Grid.Column="3" Grid.Row="0"  HorizontalAlignment="Right"  Margin="0,0,0,10" Click="btnAssigner_Click" Cursor="Hand"/>
+            <Button x:Name="btnAddProgram" Content="Add Program" Grid.Column="4" Grid.Row="0"  HorizontalAlignment="Right"  Margin="0,0,0,10" Click="btnAddProgram_Click" Cursor="Hand"/>
+            <ListView x:Name="LvPrograms" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3" SelectionChanged="LvPrograms_SelectionChanged" Cursor="Hand">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
                             <!-- Define item template content here -->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="File name: " FontWeight="DemiBold" FontSize="18"/>
+                                <TextBlock Text="{Binding FileName}" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="File Path: " FontWeight="DemiBold" FontSize="18"/>
+                                <TextBlock Text="{Binding FilePath}" FontSize="18"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Assigned Key: " FontWeight="DemiBold" FontSize="18"/>
+                                <TextBlock Text="{Binding AssignedKey}" FontSize="18"/>
+                            </StackPanel>
+                            <Separator/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-
     </Grid>
 </Window>

@@ -1,10 +1,13 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using XboxMacroApp.Models;
 
 namespace XboxMacroApp.Helpers
 {
@@ -20,6 +23,12 @@ namespace XboxMacroApp.Helpers
             }
 
             return string.Empty;
+        }
+
+        public static async Task WriteListToJsonFileAsync(string fileName, List<ProgramModel>? programs)
+        {
+            var seria = JsonConvert.SerializeObject(programs);
+            await File.WriteAllTextAsync(fileName, seria);
         }
     }
 }

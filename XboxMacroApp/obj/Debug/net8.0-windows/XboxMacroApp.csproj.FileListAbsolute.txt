@@ -18,3 +18,11 @@ C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\r
 C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\XboxMacroApp.pdb
 C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\XboxMacroApp.genruntimeconfig.cache
 C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\ref\XboxMacroApp.dll
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\XboxMacroApp.sourcelink.json
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\XboxMacroApp.csproj.AssemblyReference.cache
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\XboxMacroApp.csproj.CopyComplete
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\bin\Debug\net8.0-windows\SharpDX.dll
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\bin\Debug\net8.0-windows\SharpDX.XInput.dll
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\FormButtonAssigner.g.cs
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\FormButtonAssigner.baml
