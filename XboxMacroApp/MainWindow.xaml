@@ -27,6 +27,7 @@
         <!--tab menu-->
         <TextBlock x:Name="txtPrograms" Text="Programs" Grid.Column="0" Grid.Row="1" Margin="10,8,10,12" MouseLeftButtonDown="txtPrograms_MouseLeftButtonDown" Cursor="Hand"/>
         <TextBlock x:Name="txtAssingButtons" Text="Assign Buttons" Grid.Column="0" Grid.Row="2" Margin="10" MouseLeftButtonDown="txtAssingButtons_MouseLeftButtonDown" Cursor="Hand"/>
+        <TextBlock x:Name="txtTestXBoxKeys" Text="Test Xbox keys" Grid.Column="0" Grid.Row="3" Margin="10"  Cursor="Hand"/>
         <!-- Inner Grid without StackPanel -->
         <Grid x:Name="InnerGridPrograms" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0" Grid.RowSpan="8" Margin="10">
             <Grid.ColumnDefinitions>

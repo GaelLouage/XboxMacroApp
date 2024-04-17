@@ -12,6 +12,7 @@ using XboxMacroApp.Helpers;
 using XboxMacroApp.Models;
 using XboxMacroApp.Services.Interfaces;
 
+
 namespace XboxMacroApp.Services.Classes
 {
     public class JsonSerivce : IJsonSerivce
@@ -41,17 +42,19 @@ namespace XboxMacroApp.Services.Classes
             var oldCount = programs.Count;
             var programCheckAvailability = programs
                 .FirstOrDefault(x => x.FilePath == program.FilePath);
+            if (string.IsNullOrEmpty(program.FileName)
+             || string.IsNullOrEmpty(program.FilePath))
+            {
+                return (false, "FileName and FilePath are required.");
+            }
+            //TODO:validation program  => place in separate method
             if (programCheckAvailability is not null)
             {
                 return (false, "List already contains data!");
             }
-            //validation program
-            if(string.IsNullOrEmpty(program.FileName) 
-                || string.IsNullOrEmpty(program.FilePath))
-            {
-                return (false,"FileName and FilePath are required.");
-            }
-            //add the item to the db
+          
+         
+            //add the item to the database
             programs.Add(program);
             await FileHelper.WriteListToJsonFileAsync(_fileName, programs);
             var newCount = (await GetProgramsAsync()).Count;

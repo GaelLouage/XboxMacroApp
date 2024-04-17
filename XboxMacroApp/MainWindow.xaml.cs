@@ -1,18 +1,10 @@
-﻿using Microsoft.Win32;
-using SharpDX.XInput;
+﻿using SharpDX.XInput;
 using System.Diagnostics;
-using System.Runtime;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using XboxMacroApp.Constants;
+using XboxMacroApp.Dictionaries;
 using XboxMacroApp.Extensions;
 using XboxMacroApp.Helpers;
 using XboxMacroApp.Models;
@@ -38,45 +30,51 @@ namespace XboxMacroApp
 
         public MainWindow() :
             // constructor chaining to call other constructor on class
-            this(new JsonSerivce(Constant.FILENAME)) 
+            this(new JsonSerivce(Constant.FILENAME))
         {
             InitializeComponent();
             btnAssigner.IsEnabled = false;
         }
         private async void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            if(!_controller.IsConnected)
+            try
             {
-                MessageBox.Show("No controller detected! Install a controller before using the app.", 
-                    "Controller not found!", 
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                Close();
-            }
-            // get all the programs
-            var programs = await _jsonService.GetProgramsAsync();
-            //null check
-            if(programs is not null)
-                LvPrograms.ItemsSource = await _jsonService.GetProgramsAsync();
-            // TODO:separate this method;
-            // task on other thread to keep the button check running
-            await Task.Run(async () =>
-            {
-                while(true)
+                if (!_controller.IsConnected)
                 {
-                    var state = _controller.GetState();
-                    if (state.Gamepad.Buttons.HasFlag(GamepadButtonFlags.A))
-                    {
-                        var getProgramWithButtonA = (await _jsonService.GetProgramsAsync())
-                        .FirstOrDefault(x => x.AssignedKey == GamepadButtonFlags.A);
-                        if(getProgramWithButtonA is not null)
-                        {
-                            Process.Start(getProgramWithButtonA.FilePath);
-                        }
-                    }
-                    await Task.Delay(125);
+                    MessageBox.Show("No controller detected! Install a controller before using the app.",
+                        "Controller not found!",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Close();
                 }
-            });
-          
+                // get all the programs
+                var programs = await _jsonService.GetProgramsAsync();
+                //null check
+                if (programs is not null)
+                    LvPrograms.ItemsSource = await _jsonService.GetProgramsAsync();
+                // TODO:separate this method;
+                // task on other thread to keep the button check running
+                await Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        var state = _controller.GetState();
+                        var getKeyStatePressValue = KeyStateDictionary.Get(state).FirstOrDefault(x => x.Value is true);
+                        var getProgramWithKeyPresseValue = (await _jsonService.GetProgramsAsync())
+                        .FirstOrDefault(x => x.AssignedKey == getKeyStatePressValue.Key);
+                        if (getProgramWithKeyPresseValue.AssignedKey != GamepadButtonFlags.None)
+                        {
+                            Process.Start(getProgramWithKeyPresseValue.FilePath);
+                        }
+                        await Task.Delay(125);
+                    }
+                });
+            }
+            catch 
+            {
+                MessageBox.Show("An Error occured!",
+                     "Error",
+                     MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         // program buttons
         private async void btnAddProgram_Click(object sender, RoutedEventArgs e)
@@ -89,13 +87,13 @@ namespace XboxMacroApp
                 var ProgramName = filePath.GetFileName();
                 // add the new selected program to the file
                 var (IsSuccess, Message) = await _jsonService.AddProgramAsync(
-                    new Models.ProgramModel 
-                { 
-                    FilePath = filePath,
-                    FileName = ProgramName 
-                });
+                    new Models.ProgramModel
+                    {
+                        FilePath = filePath,
+                        FileName = ProgramName
+                    });
                 // if added program is successfull
-                if(IsSuccess)
+                if (IsSuccess)
                 {
                     LvPrograms.ItemsSource = await _jsonService.GetProgramsAsync();
                     MessageBox.Show(Message, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -112,14 +110,14 @@ namespace XboxMacroApp
         private void LvPrograms_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnAssigner.IsEnabled = true;
-            if((LvPrograms.SelectedValue as ProgramModel) is ProgramModel program)
+            if ((LvPrograms.SelectedValue as ProgramModel) is ProgramModel program)
             {
                 _programModel = program;
             }
         }
         private void btnAssigner_Click(object sender, RoutedEventArgs e)
         {
-            if(_programModel is not null)
+            if (_programModel is not null)
             {
                 var btnAssignForm = new FormButtonAssigner(_programModel, _jsonService);
                 btnAssignForm.Show();
@@ -136,7 +134,5 @@ namespace XboxMacroApp
         {
             InnerGridPrograms.Visibility = Visibility.Hidden;
         }
-
-
     }
 }
