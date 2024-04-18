@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+using XboxMacroApp.Helpers;
 
 namespace XboxMacroApp.Models
 {
@@ -12,6 +14,7 @@ namespace XboxMacroApp.Models
     {
         public string FilePath { get; set; }
         public string FileName { get; set; }
-        public GamepadButtonFlags AssignedKey { get; set; } = GamepadButtonFlags.None; 
+        public GamepadButtonFlags AssignedKey { get; set; } = GamepadButtonFlags.None;
+        public BitmapImage ButtonImage => ButtonImageHelper.GetButtonImage(AssignedKey);
     }
 }

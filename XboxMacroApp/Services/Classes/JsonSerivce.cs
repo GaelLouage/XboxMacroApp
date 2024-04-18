@@ -86,5 +86,31 @@ namespace XboxMacroApp.Services.Classes
             await FileHelper.WriteListToJsonFileAsync(_fileName,programs);
             return (true,"Updated!");
         }
+        public async Task<(bool IsSuccess, string Message)> DeleteProgramAsync(ProgramModel program)
+        {
+            var programs = await GetProgramsAsync() ?? new List<ProgramModel>();
+            var programToDelete = programs
+                .FirstOrDefault(x => x.FilePath == program.FilePath);
+            var oldCount = 0;
+            if(programs.Count > 0)
+            {
+                 oldCount = programs.Count;
+            }
+            
+            if(programToDelete is null)
+            {
+                return (false, $"Database does not conctains {program.FileName}");
+            }
+            programs.Remove(programToDelete);
+            await FileHelper.WriteListToJsonFileAsync(_fileName, programs);
+            var newCount = (await GetProgramsAsync()).Count;
+            var checkIfSuccess = newCount < oldCount;
+            if(checkIfSuccess) 
+            {
+                return (checkIfSuccess, "Deleted program from database!");
+            }
+            return (checkIfSuccess, "Failed to remove program!");
+        }
+
     }
 }

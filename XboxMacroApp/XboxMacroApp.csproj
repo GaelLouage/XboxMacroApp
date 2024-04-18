@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Enums\" />
+    <Folder Include="Images\" />
     <Folder Include="Singletons\" />
   </ItemGroup>
 

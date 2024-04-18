@@ -59,7 +59,6 @@ namespace XboxMacroApp
                 mainWindow.Show();
                 this.Close();
             }
-           
         }
 
         private void cmbButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)

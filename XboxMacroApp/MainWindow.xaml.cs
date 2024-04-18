@@ -1,8 +1,11 @@
 ﻿using SharpDX.XInput;
+using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using XboxMacroApp.Constants;
 using XboxMacroApp.Dictionaries;
 using XboxMacroApp.Extensions;
@@ -34,6 +37,7 @@ namespace XboxMacroApp
         {
             InitializeComponent();
             btnAssigner.IsEnabled = false;
+            btnDelete.IsEnabled = false;
         }
         private async void Grid_Loaded(object sender, RoutedEventArgs e)
         {
@@ -57,14 +61,25 @@ namespace XboxMacroApp
                 {
                     while (true)
                     {
-                        var state = _controller.GetState();
-                        var getKeyStatePressValue = KeyStateDictionary.Get(state).FirstOrDefault(x => x.Value is true);
-                        var getProgramWithKeyPresseValue = (await _jsonService.GetProgramsAsync())
-                        .FirstOrDefault(x => x.AssignedKey == getKeyStatePressValue.Key);
-                        if (getProgramWithKeyPresseValue.AssignedKey != GamepadButtonFlags.None)
+                        try
                         {
-                            Process.Start(getProgramWithKeyPresseValue.FilePath);
+                            var state = _controller.GetState();
+                            var getKeyStatePressValue = KeyStateDictionary.Get(state).FirstOrDefault(x => x.Value is true);
+
+                            var getProgramWithKeyPresseValue = (await _jsonService.GetProgramsAsync())
+                            .FirstOrDefault(x => x.AssignedKey == getKeyStatePressValue.Key);
+                            if (getKeyStatePressValue.Value is true && getKeyStatePressValue.Key != GamepadButtonFlags.None)
+                            {
+                                if (getProgramWithKeyPresseValue is not null)
+                                {
+                                    // TODO: check if program is already running if no start else do nothing
+                                        Process.Start(getProgramWithKeyPresseValue.FilePath);
+                                }
+                            }
+
+
                         }
+                        catch { }
                         await Task.Delay(125);
                     }
                 });
@@ -110,10 +125,29 @@ namespace XboxMacroApp
         private void LvPrograms_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnAssigner.IsEnabled = true;
+            btnDelete.IsEnabled = true;
             if ((LvPrograms.SelectedValue as ProgramModel) is ProgramModel program)
             {
                 _programModel = program;
             }
+        }
+        // btns action
+        private async void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            btnDelete.IsEnabled = false;
+            if (_programModel is not null)
+            {
+                var (Success, Message) = await _jsonService.DeleteProgramAsync( _programModel);
+                if(Success)
+                {
+                    LvPrograms.ItemsSource = await _jsonService.GetProgramsAsync() ?? new List<ProgramModel>();
+                    MessageBox.Show($"{Message}","Success", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    return;
+                }
+                MessageBox.Show($"{Message}", "Failed", MessageBoxButton.OK, MessageBoxImage.Hand);
+                return;
+            }
+          
         }
         private void btnAssigner_Click(object sender, RoutedEventArgs e)
         {

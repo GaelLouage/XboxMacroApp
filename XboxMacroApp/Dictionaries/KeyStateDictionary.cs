@@ -11,7 +11,8 @@ namespace XboxMacroApp.Dictionaries
     public class KeyStateDictionary
     {
         public static Dictionary<GamepadButtonFlags,bool>  Get(State state) =>
-              new Dictionary<GamepadButtonFlags, bool>(){ {GamepadButtonFlags.A , state.Gamepad.Buttons.HasFlag(GamepadButtonFlags.B) },
+              new Dictionary<GamepadButtonFlags, bool>(){ 
+                       {GamepadButtonFlags.A , state.Gamepad.Buttons.HasFlag(GamepadButtonFlags.A) },
                         {GamepadButtonFlags.B , state.Gamepad.Buttons.HasFlag(GamepadButtonFlags.B) },
                         {GamepadButtonFlags.X ,state.Gamepad.Buttons.HasFlag(GamepadButtonFlags.X) },
                         {GamepadButtonFlags.Y , state.Gamepad.Buttons.HasFlag(GamepadButtonFlags.Y) },
