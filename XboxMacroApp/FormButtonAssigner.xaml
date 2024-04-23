@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XboxMacroApp"
         mc:Ignorable="d"
-        Title="FormButtonAssigner" Height="400" Width="200">
+        Title="MacroX Launcher" Height="400" Width="600" Background="#FF192838">
     <Grid Loaded="Grid_Loaded">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -17,8 +17,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="txtProgramName" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Margin="10"/>
-        <ComboBox x:Name="cmbButtons" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="10" Cursor="Hand" Height="80" SelectionChanged="cmbButtons_SelectionChanged"/>
-        <Button x:Name="btnAssignKey" Content="Assign Key" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="10,10,10,10" Click="btnAssignKey_Click" Cursor="Hand" Height="80"/>
+        <TextBlock x:Name="txtProgramName" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Margin="10" Foreground="White" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ComboBox x:Name="cmbButtons" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="10" Cursor="Hand" Height="40" SelectionChanged="cmbButtons_SelectionChanged"/>
+        <Button x:Name="btnAssignKey" Content="Assign Key" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" Margin="10,10,10,10" Click="btnAssignKey_Click" Cursor="Hand" Height="40"/>
     </Grid>
 </Window>

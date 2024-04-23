@@ -26,3 +26,8 @@ C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\bin\Debug\net8.0-windows\S
 C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\bin\Debug\net8.0-windows\SharpDX.XInput.dll
 C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\FormButtonAssigner.g.cs
 C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\FormButtonAssigner.baml
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\obj\Debug\net8.0-windows\XboxMacroApp_Content.g.cs
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\bin\Debug\net8.0-windows\Microsoft.Win32.SystemEvents.dll
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\bin\Debug\net8.0-windows\System.Drawing.Common.dll
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\bin\Debug\net8.0-windows\System.Private.Windows.Core.dll
+C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll

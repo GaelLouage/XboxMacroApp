@@ -30,6 +30,7 @@ namespace XboxMacroApp.Services.Classes
         public async Task<List<ProgramModel>?> GetProgramsAsync()
         {
             var file = await File.ReadAllTextAsync(_fileName);
+            if(string.IsNullOrEmpty(file)) return null;
             return JsonConvert.DeserializeObject<List<ProgramModel>>(file);
         }
         public async Task<(bool IsSuccess, string Message)> AddProgramAsync(ProgramModel program)

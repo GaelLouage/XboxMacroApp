@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using XboxMacroApp.Models;
 
 namespace XboxMacroApp.Helpers
@@ -29,6 +30,12 @@ namespace XboxMacroApp.Helpers
         {
             var seria = JsonConvert.SerializeObject(programs);
             await File.WriteAllTextAsync(fileName, seria);
+        }
+        
+
+        public static BitmapImage CombineCurrentDirectoryWithPath(string fileName)
+        {
+            return new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, fileName)));
         }
     }
 }

@@ -15,6 +15,8 @@ namespace XboxMacroApp.Models
         public string FilePath { get; set; }
         public string FileName { get; set; }
         public GamepadButtonFlags AssignedKey { get; set; } = GamepadButtonFlags.None;
+        public BitmapImage? ProgramImage => IconHelper.GetIcon(FilePath);
         public BitmapImage ButtonImage => ButtonImageHelper.GetButtonImage(AssignedKey);
+        
     }
 }
