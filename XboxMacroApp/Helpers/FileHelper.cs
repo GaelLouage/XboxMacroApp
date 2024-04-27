@@ -40,7 +40,7 @@ namespace XboxMacroApp.Helpers
 
         public static bool IsSupportedFileExtension(string filePath)
         {
-            // get path of the file extension
+            // get path of the file extension t
             var fileExtension = Path.GetExtension(filePath).ToLower();
             if (fileExtension == ".exe" || fileExtension == ".txt" || fileExtension == ".png")
             {
