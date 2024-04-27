@@ -1,4 +1,6 @@
-﻿namespace XboxMacroApp.Constants
+﻿using System.Windows.Markup;
+
+namespace XboxMacroApp.Constants
 {
     public class ImageConstant
     {
@@ -8,5 +10,6 @@
         public const string BUTTON_Y = "Y.png";
         public const string BUTTON_START = "start.png";
         public const string BUTTON_BACK = "back.png";
+        public const string N_A = "Na.png";
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using XboxMacroApp.Helpers;
 using XboxMacroApp.Models;
 using XboxMacroApp.Services.Interfaces;
 
@@ -30,26 +31,33 @@ namespace XboxMacroApp
             InitializeComponent();
             _program = program;
             _jsonSerivce = jsonSerivce;
+            imgGoBack.Source = FileHelper.CombineCurrentDirectoryWithPath("leftArrow.png");
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            // set the combobox with gamepad controller values
-            var controllerEnums = Enum.GetValues(typeof(GamepadButtonFlags))
-                .Cast<GamepadButtonFlags>();
+
             txtProgramName.Text = _program.FileName;
-            cmbButtons.ItemsSource = controllerEnums;
+            cmbButtons.ItemsSource = new List<GamepadButtonFlags>()
+            {
+                     GamepadButtonFlags.A,
+                     GamepadButtonFlags.B,
+                     GamepadButtonFlags.Y,
+                     GamepadButtonFlags.X,
+                     GamepadButtonFlags.Start,
+                     GamepadButtonFlags.Back
+            };
             btnAssignKey.IsEnabled = false;
         }
 
         private async void btnAssignKey_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show($"Are you sure you want to assign?",
-"Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            "Confirmation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 // write to db
-                var (IsSuccess, Message) = await _jsonSerivce.UpdateKeyAsync(_program,_buttonChosen);
-                if(!IsSuccess)
+                var (IsSuccess, Message) = await _jsonSerivce.UpdateKeyAsync(_program, _buttonChosen);
+                if (!IsSuccess)
                 {
                     MessageBox.Show($"{Message}", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
@@ -67,7 +75,38 @@ namespace XboxMacroApp
             //set the selected button
             var selected = (GamepadButtonFlags)cmbButtons.SelectedItem;
             _buttonChosen = selected;
+        }
 
+        private void btnCloseKey_Click(object sender, RoutedEventArgs e)
+        {
+            var mainFrom = new MainWindow();
+            this.Close();
+            mainFrom.Show();
+        }
+
+        private void txtClose_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void txtMinimize_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                DragMove();
+            }
+            catch{}
+        }
+        private void imgGoBack_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var main = new MainWindow();
+            main.Show();
+            this.Close();
         }
     }
 }

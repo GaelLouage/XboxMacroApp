@@ -10,9 +10,15 @@
     <Compile Update="FormButtonAssigner.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="FormControllerTest.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="FormButtonAssigner.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="FormControllerTest.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">

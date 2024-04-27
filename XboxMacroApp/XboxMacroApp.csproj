@@ -23,7 +23,6 @@
     <Folder Include="bin\Debug\net8.0-windows\" />
     <Folder Include="Enums\" />
     <Folder Include="Images\" />
-    <Folder Include="Singletons\" />
   </ItemGroup>
 
 </Project>

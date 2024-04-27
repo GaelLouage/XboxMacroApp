@@ -30,7 +30,7 @@ namespace XboxMacroApp.Helpers
                 case GamepadButtonFlags.Back:
                     return new BitmapImage(new Uri(Path(ImageConstant.BUTTON_BACK)));
                 default:
-                    return new BitmapImage(new Uri(Path(ImageConstant.BUTTON_BACK)));
+                    return new BitmapImage(new Uri(Path(ImageConstant.N_A)));
             }
         }
         public static string Path(string fileName) => 

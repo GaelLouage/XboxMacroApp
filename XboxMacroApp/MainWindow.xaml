@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XboxMacroApp"
         mc:Ignorable="d"
-        Title="MacroX Launcher" Height="500" Width="500" ResizeMode="NoResize" WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown">
-
+        Title="MacroX Launcher" Height="500" Width="400" ResizeMode="NoResize" WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Grid x:Name="mainGrid" Loaded="Grid_Loaded" Background="#FF192838">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -25,8 +24,26 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!--image app-->
-        <Image x:Name="imgApp" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Image x:Name="imgApp" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="imgApp_MouseLeftButtonDown">
+            <Image.ToolTip>
+                <ToolTip>
+                   ControllerTest
+                </ToolTip>
+            </Image.ToolTip>
+        </Image>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="5"  VerticalAlignment="Center">
+            <TextBlock x:Name="txtMinimize" Text="-" Foreground="White" FontSize="40" FontWeight="Bold" Grid.Row="0" Grid.Column="5" Margin="10,-47,-50,0" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="txtMinimize_MouseLeftButtonDown" Cursor="Hand"/>
+            <TextBlock x:Name="txtClose" Text="X" Foreground="White" FontSize="15"  FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,-40,-120,0" MouseLeftButtonDown="txtClose_MouseLeftButtonDown" Cursor="Hand"/>
+        </StackPanel>
+        <Image x:Name="imgInfo" Cursor="Hand" Width="25" Height="25" Margin="-30,-15,0,0" MouseLeftButtonDown="imgInfo_MouseLeftButtonDown">
+            <Image.ToolTip>
+                <ToolTip>
+                   App Info
+                </ToolTip>
+            </Image.ToolTip>
+        </Image>
+
         <!-- Inner Grid without StackPanel -->
         <Grid x:Name="InnerGridPrograms" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="0" Grid.RowSpan="8" Margin="10" >
             <Grid.ColumnDefinitions>
@@ -38,21 +55,39 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="31*"/>
+                <RowDefinition Height="129*"/>
+                <RowDefinition Height="160*"/>
+                <RowDefinition Height="160*"/>
             </Grid.RowDefinitions>
             <!-- Buttons (images) and ListView inside the Inner Grid -->
-            <Separator Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="0" Margin="0,0,0,-100"  BorderBrush="#00FF00" BorderThickness="50"/>
-            <Image x:Name="imgTrash"  Grid.Column="4" Grid.Row="1"  HorizontalAlignment="Right"  Margin="0,0,5,0" Cursor="Hand"  Grid.ColumnSpan="2" MouseLeftButtonDown="imgTrash_MouseLeftButtonDown"  Width="40" Height="40" VerticalAlignment="Center"/>
-            <Image x:Name="imgKey" Grid.Column="4" Grid.Row="1"  HorizontalAlignment="Left"  Margin="0,0,0,0" Cursor="Hand" MouseLeftButtonDown="imgKey_MouseLeftButtonDown" Width="40" Height="40" VerticalAlignment="Center"/>
-            <Image x:Name="imgPlus" Grid.Column="0" Grid.Row="1"  HorizontalAlignment="Left"  Margin="0,0,0,0"  Cursor="Hand" MouseLeftButtonDown="imgPlus_MouseLeftButtonDown" Width="30" Height="40" VerticalAlignment="Center"/>
-     
+            <Separator Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="0" Margin="0,0,0,60"  BorderBrush="#FFD9D9D9" BorderThickness="50" Panel.ZIndex="0" Grid.RowSpan="3" />
+            <Image x:Name="imgTrash"  Grid.Column="4" Grid.Row="2"  HorizontalAlignment="Right"  Margin="0,29,5,0" Cursor="Hand" MouseLeftButtonDown="imgTrash_MouseLeftButtonDown"  Width="30" Height="40" VerticalAlignment="Top" >
+                <Image.ToolTip>
+                    <ToolTip>
+                        Delete 
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+            <Image x:Name="imgKey" Grid.Column="4" Grid.Row="2"  HorizontalAlignment="Left"  Margin="0,29,0,0" Cursor="Hand" MouseLeftButtonDown="imgKey_MouseLeftButtonDown" Width="30" Height="40" VerticalAlignment="Top">
+                <Image.ToolTip>
+                    <ToolTip>
+                         Assign Key
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
+            <Image x:Name="imgPlus" Grid.Column="0" Grid.Row="2"  HorizontalAlignment="Left"  Margin="0,35,0,0"  Cursor="Hand" MouseLeftButtonDown="imgPlus_MouseLeftButtonDown" Width="20" Height="40" VerticalAlignment="Top" Panel.ZIndex="1">
+                <Image.ToolTip>
+                    <ToolTip>
+                        Add Program
+                    </ToolTip>
+                </Image.ToolTip>
+            </Image>
             <!--connected device text-->
-            <Image x:Name="imgAppControllerOn" Grid.Row="2" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" HorizontalAlignment="Center" Height="120" Width="120" Margin="0,0,0,50"/>
-            <Separator Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="1" Margin="0,55,0,0" BorderBrush="#00FF00" BorderThickness="50"/>
+            <Image x:Name="imgAppControllerOn" Grid.Row="3" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center" Height="100" Width="100" Margin="-80,85,0,0"/>
+            <Separator Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="2" Margin="0,24,0,0" BorderBrush="#FFD9D9D9" BorderThickness="50"/>
             <ListView x:Name="LvPrograms" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Grid.RowSpan="3" SelectionChanged="LvPrograms_SelectionChanged" Cursor="Hand" 
-           ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF233B56" BorderThickness="0" Margin="0,-50,0,0">
+           ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF233B56" BorderThickness="0" Margin="0,79,0,0">
 
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -62,25 +97,16 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <!-- Define item template content here -->
-                            <!--<StackPanel Orientation="Horizontal" Margin="10">
-                                <TextBlock Text="File name: " FontWeight="DemiBold" FontSize="18"/>
-                                <TextBlock Text="{Binding FileName}" FontSize="18"/>
-                            </StackPanel>-->
-                            <!--<StackPanel Orientation="Horizontal" Margin="10">
-                                <TextBlock Text="File Path: " FontWeight="DemiBold" FontSize="18"/>
-                                <TextBlock Text="{Binding FilePath}" FontSize="18"/>
-                            </StackPanel>-->
-                            <StackPanel Orientation="Horizontal" Margin="10" Height="60" Width="60">
-                                <Image Source="{Binding ProgramImage}" Width="40" Height="40" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal"  Height="80" Width="80" HorizontalAlignment="Center" >
+                                <Image Source="{Binding ProgramImage}" Width="40" Height="40" Margin="20,20,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
-                                <Image Source="{Binding ButtonImage}" Width="35" Height="35" VerticalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="0">
+                                <Image Source="{Binding ButtonImage}" Width="35" Height="35" VerticalAlignment="Center" />
                             </StackPanel>
-                            <Separator  Foreground="#FF192838" Width="25"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+         
             </ListView>
 
         </Grid>

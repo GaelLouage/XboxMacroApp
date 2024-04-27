@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\louag\source\repos\XboxMacroApp\XboxMacroApp\App.xaml
-2945577369
+3-51567124
 1-1231186148
-19-959630015
+22-994229123
 203-490256722
-FormButtonAssigner.xaml;MainWindow.xaml;
+FormButtonAssigner.xaml;FormControllerTest.xaml;MainWindow.xaml;
 
-False
+True
 

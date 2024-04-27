@@ -16,6 +16,7 @@ using XboxMacroApp.Services.Interfaces;
 using System.Drawing;
 using System.Windows.Interop;
 using System.Windows.Media;
+using XboxMacroApp.Singletons;
 
 namespace XboxMacroApp
 {
@@ -25,14 +26,12 @@ namespace XboxMacroApp
     public partial class MainWindow : Window
     {
         private readonly IJsonSerivce _jsonService;
-        private Controller? _controller;
         private ProgramModel? _programModel;
         private bool _controllerIsConnected;
         public MainWindow(IJsonSerivce jsonSerivce)
         {
             // add the dependency
             _jsonService = jsonSerivce;
-            _controller = new Controller(UserIndex.One);
         }
 
         public MainWindow() :
@@ -40,17 +39,25 @@ namespace XboxMacroApp
             this(new JsonSerivce(Constant.FILENAME))
         {
             InitializeComponent();
-            UIHelper.UIUpdate(LvPrograms, imgApp, imgAppControllerOn,imgKey, imgTrash,imgPlus);
+            UIHelper.UIUpdate(LvPrograms, imgApp, imgAppControllerOn,imgKey, imgTrash,imgPlus, imgInfo);
         }
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) 
         {
             // apply movement of mouse when no title bar is available
-            DragMove();
+            try
+            {
+                DragMove();
+            }
+            catch {  }
+     
         }
         private async void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
+                ControllerSingleton.Instance.ControllerTestTaskIsRunning = false;
+                ControllerSingleton.Instance.ProgramRunnerTaskIsRunning = true;
+
                 await Task.Delay(500);
                 // get all the programs
                 var programs = await _jsonService.GetProgramsAsync();
@@ -63,7 +70,7 @@ namespace XboxMacroApp
                 // task on other thread to keep the button check running
                 await Task.Run(async () =>
                 {
-                    while (true)
+                    while (ControllerSingleton.Instance.ProgramRunnerTaskIsRunning)
                     {
                         await ControllerState();
                         await Task.Delay(125);
@@ -82,9 +89,9 @@ namespace XboxMacroApp
         {
             try
             {
-                if (_controller.IsConnected)
+                if (ControllerSingleton.Instance.Controller.IsConnected)
                 {
-                    var state = _controller.GetState();
+                    var state = ControllerSingleton.Instance.Controller.GetState();
                     var getKeyStatePressValue = KeyStateDictionary.Get(state).FirstOrDefault(x => x.Value is true);
 
                     var getProgramWithKeyPresseValue = (await _jsonService.GetProgramsAsync())
@@ -93,15 +100,16 @@ namespace XboxMacroApp
                     {
                         if (getProgramWithKeyPresseValue is not null)
                         {
-                            // TODO: check if program is already running if no start else do nothing
-                            Process.Start(getProgramWithKeyPresseValue.FilePath);
+                            ProcessHelper.OpenFileWithAssociatedProgram(getProgramWithKeyPresseValue);
                         }
                     }
                 }
-                UIHelper.UiVisibilityOnConnectedCheck(Dispatcher,imgPlus,imgAppControllerOn,LvPrograms, _controller.IsConnected);
+                UIHelper.UiVisibilityOnConnectedCheck(Dispatcher,imgPlus,imgAppControllerOn,LvPrograms);
             }
             catch { }
         }
+
+       
 
         private void UiVisibilityOnConnectedCheck(bool controllerConnected)
         {
@@ -152,6 +160,7 @@ namespace XboxMacroApp
             if (_programModel is not null)
             {
                 var btnAssignForm = new FormButtonAssigner(_programModel, _jsonService);
+
                 btnAssignForm.Show();
                 this.Hide();
             }
@@ -163,6 +172,13 @@ namespace XboxMacroApp
             {
                 // get the file dialog path of exe
                 var filePath = FileHelper.OpenFileDialogWithPath();
+                var isExtensionSupported = FileHelper.IsSupportedFileExtension(filePath);
+                if(!isExtensionSupported)
+                {
+                    MessageBox.Show("File not supported!");
+                    return;
+                }
+     
                 // file name of the program
                 var ProgramName = filePath.GetFileName();
                 // add the new selected program to the file
@@ -179,7 +195,11 @@ namespace XboxMacroApp
                     MessageBox.Show(Message, "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
                 }
-                MessageBox.Show(Message, "Failed", MessageBoxButton.OK, MessageBoxImage.Information);
+                if (!string.IsNullOrEmpty(Message))
+                {
+                    MessageBox.Show(Message, "Failed", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+              
             }
             catch (Exception ex)
             {
@@ -188,6 +208,39 @@ namespace XboxMacroApp
         }
         #endregion
 
-       
+        private void txtMinimize_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void txtClose_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void imgApp_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var controllerForm = new FormControllerTest();
+            ControllerSingleton.Instance.ProgramRunnerTaskIsRunning = false;
+            controllerForm.Show();
+            this.Hide();
+        }
+
+        private void imgInfo_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var infoFile = "Readme.txt";
+            try
+            {
+                if (File.Exists(infoFile))
+                {
+                    Process.Start("Notepad.exe", Path.Combine(Environment.CurrentDirectory, infoFile));
+                }
+            }
+            catch 
+            {
+                MessageBox.Show($"An error occured. Try to open {infoFile} file manually");
+            }
+          
+        }
     }
 }

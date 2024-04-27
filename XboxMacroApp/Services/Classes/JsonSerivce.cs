@@ -46,7 +46,7 @@ namespace XboxMacroApp.Services.Classes
             if (string.IsNullOrEmpty(program.FileName)
              || string.IsNullOrEmpty(program.FilePath))
             {
-                return (false, "FileName and FilePath are required.");
+                return (false, "");
             }
             //TODO:validation program  => place in separate method
             if (programCheckAvailability is not null)

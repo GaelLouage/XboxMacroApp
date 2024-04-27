@@ -37,5 +37,15 @@ namespace XboxMacroApp.Helpers
         {
             return new BitmapImage(new Uri(Path.Combine(Environment.CurrentDirectory, fileName)));
         }
+
+        public static bool IsSupportedFileExtension(string filePath)
+        {
+            var fileExtension = Path.GetExtension(filePath).ToLower();
+            if (fileExtension == ".exe" || fileExtension == ".txt" || fileExtension == ".png")
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
